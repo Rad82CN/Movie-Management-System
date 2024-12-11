@@ -22,6 +22,7 @@ class MovieController{
         $movie_genres = isset($_POST['genres']) ? $_POST['genres'] : "";
 
         $this->createMovieGenres($movie_genres, $movie_id);
+        $this->saveAndUploadCoverImage($movie_id);
     }
 
     // many to many relation for movies and genres
@@ -40,13 +41,34 @@ class MovieController{
 
     public function getMovies() {
 
-        $query = "SELECT mv_id, mv_title, gnr_name, GROUP_CONCAT(gnr_name) genres, mv_year_released
+        $query = "SELECT mv_id, mv_title, img_path, gnr_name, GROUP_CONCAT(gnr_name) genres, mv_year_released
                     FROM movies
                     LEFT JOIN mv_genres ON mvg_ref_movie = mv_id
                     LEFT JOIN genres ON mvg_ref_genre = gnr_id
-                    GROUP BY mv_id";
+                    LEFT JOIN images ON img_ref_movie = mv_id
+                    GROUP BY mv_id
+                    ORDER BY mv_id DESC";
         
         $results = $this->crud->read($query);
         return $results;
+    }
+
+    public function saveAndUploadCoverImage($movie_id) {
+        
+        $dir = "../images/movie_covers/movie_$movie_id";
+        if( !file_exists($dir) ) {
+            mkdir($dir, 077, true);
+        }
+
+        $dir = $dir."/".basename($_FILES['cover_image']['name']);
+
+        move_uploaded_file($_FILES["cover_image"]["tmp_name"], $dir);
+
+        $movie_info = [
+            "img_path" => str_replace('../', '', $dir),
+            "img_ref_movie" => $movie_id,
+        ];
+
+        $this->crud->create($movie_info, "images");
     }
 }

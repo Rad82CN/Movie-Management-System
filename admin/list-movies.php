@@ -223,14 +223,14 @@
                 </div>
                 <table id="movies">
                     <tr>
-                        <th>Movie Title</th> <th>Genre(s)</th> <th>Year Released</th><th>Cover Imagge</th> <th>Actions</th>
+                        <th>Movie Title</th> <th>Genre(s)</th> <th>Year Released</th><th>Cover Image</th> <th>Actions</th>
                     </tr>
                     <?php foreach($movies as $movie) : ?>    
                         <tr>
                             <td><?= $movie->mv_title; ?></td>
                             <td><?= $movie->genres; ?></td>
                             <td><?= $movie->mv_year_released ?></td>
-                            <td style="width:15px"><img src="../images/movie_covers/murder in miami.PNG" height="25px" width="25px"></td>
+                            <td style="width:15px"><img src="../<?= $movie->img_path ?>" height="25px" width="25px"></td>
                             <td style="width:15px">
                                 <a href="admin.php?action=edit-movie&id=58">edit</a>
                                 <a href="admin.php?action=edit-movie">delete</a>
