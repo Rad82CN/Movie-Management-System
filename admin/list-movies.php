@@ -1,6 +1,8 @@
 <?php
 
     include_once "../MovieController.php";
+    include_once "../Session.php";
+    Session::start();
 
     $movieController = new MovieController;
     $movies = $movieController->getMovies();
@@ -28,6 +30,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="../css/jquery.toast.min.css" rel="stylesheet" type="text/css">
     <!-- Include English language -->
     <script src="js/plugins/datepicker/dist/js/i18n/datepicker.en.js"></script>
 
@@ -233,7 +236,7 @@
                             <td style="width:15px"><img src="../<?= $movie->img_path; ?>" height="25px" width="25px"></td>
                             <td style="width:15px">
                                 <a href="edit-movie.php?id=<?= $movie->mv_id; ?>">Edit</a>
-                                <a href="admin.php?action=edit-movie">Delete</a>
+                                <a href="delete-movie.php?id=<?= $movie->mv_id; ?>">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -257,5 +260,20 @@
     </div>
 </div>
     </div>
+    <script src="../js/jquery.toast.min.js"></script>
+    <?php if(Session::exists('success-message')) { ?>
+        <script>
+            $.toast({
+                    heading: 'Information',
+                    text:  "<?= Session::get('success-message') ?>",
+                    icon: 'info',
+                    loader: true,        // Change it to false to disable loader
+                    position: 'bottom-right',
+                    loaderBg: '#9EC600'  // To change the background
+                })
+        </script>
+    <?php }
+        Session::destroy('success-message');
+    ?>
 </body>
 </html>

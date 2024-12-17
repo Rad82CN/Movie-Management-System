@@ -1,6 +1,9 @@
 <?php
 
     include_once "../Crud.php";
+    include_once "../Session.php";
+
+    Session::start();
 
     // for displaying genres from database
     $crud = new Crud;

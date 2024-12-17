@@ -2,6 +2,7 @@
 
 include_once "DbConfig.php";
 include_once "Crud.php";
+include_once "Paginator.php";
 
 $crud = new Crud;
 
@@ -18,3 +19,7 @@ $data_array = [
 // $crud->update("UPDATE movies SET title = 'Titanic 2' WHERE id = 1");
 
 // $crud->delete("DELETE FROM movies WHERE id=2");
+
+$paginator = new Paginator(20,5);
+echo $paginator->get_pagination_links();
+echo $paginator->get_offset_and_limit();

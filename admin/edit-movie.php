@@ -2,6 +2,9 @@
 
     include_once "../Crud.php";
     include_once "../MovieController.php";
+    include_once "../Session.php";
+
+    Session::start();
 
     $movieController = new MovieController;
     $crud = new Crud;

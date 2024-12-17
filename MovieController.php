@@ -1,6 +1,7 @@
 <?php
 
 include_once "Crud.php";
+include_once "Session.php";
 
 class MovieController{
 
@@ -23,6 +24,8 @@ class MovieController{
 
         $this->createMovieGenres($movie_genres, $movie_id);
         $this->saveAndUploadCoverImage($movie_id);
+
+        Session::set("success-message", 'Movie added successfully!');
 
         header('location: list-movies.php');
     }
@@ -117,6 +120,8 @@ class MovieController{
             $this->saveAndUploadCoverImage($movie_id);
         }
 
+        Session::set("success-message", 'Movie Edited Successfully!');
+
         header('location: list-movies.php');
     }
 
@@ -132,5 +137,15 @@ class MovieController{
                 $this->crud->delete("DELETE FROM mv_genres WHERE mvg_ref_genre = $genre_id");
             }
         }
+    }
+
+    public function deleteMovie($movie_id){
+
+        $this->crud->delete("DELETE FROM movies WHERE mv_id = $movie_id");
+
+        Session::set("success-message", 'Movie deleted successfully!');
+
+        header('location: list-movies.php');
+        exit();
     }
 }
